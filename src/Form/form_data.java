@@ -24,12 +24,12 @@ public class form_data extends javax.swing.JFrame {
     private String CurrentId;
     
     public void TampilDataCustomer() {
-        ftTblModel_customers = new DefaultTableModel();
+        DftTblModel_customers = new DefaultTableModel();
         DftTblModel_customers.addColumn("Id");
         DftTblModel_customers.addColumn("Nama");
         DftTblModel_customers.addColumn("Email");
 
-        Table_customers.setModel(DftTblModel_customers);
+        Table_customer.setModel(DftTblModel_customers);
         Connection conn = Koneksi.getConnection();
         try {
             java.sql.Statement stmt = conn.createStatement();
