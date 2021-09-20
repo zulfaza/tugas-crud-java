@@ -517,7 +517,21 @@ public class form_data extends javax.swing.JFrame {
     }//GEN-LAST:event_customer_hapusActionPerformed
 
     private void Seller_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seller_simpanActionPerformed
-        
+        try {
+            Connection conn = Koneksi.getConnection();
+            int temp = Integer.parseInt(this.CurrentId)+1;
+            String row = Integer.toString(temp);
+            PreparedStatement stmt = conn.prepareStatement("insert into sellers(id, name, email, location) values(?,?,?,?)");
+            stmt.setString(1, row);
+            stmt.setString(2, Seller_name.getText());
+            stmt.setString(3, Seller_email.getText());
+            stmt.setString(4, Seller_location.getText());
+            stmt.executeUpdate();
+            this.TampilDataSeller();
+            JOptionPane.showMessageDialog(null, "Data berhasil disimpan", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_Seller_simpanActionPerformed
 
     private void Seller_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seller_editActionPerformed
