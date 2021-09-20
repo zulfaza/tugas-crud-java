@@ -677,7 +677,10 @@ public class form_data extends javax.swing.JFrame {
     }//GEN-LAST:event_Table_sellerMouseClicked
 
     private void Table_customerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_customerMouseClicked
-       
+       int baris = Table_customer.getSelectedRow();
+       this.CurrentId = DftTblModel_customers.getValueAt(baris, 0).toString();
+       customer_name.setText(DftTblModel_customers.getValueAt(baris, 1).toString());
+       customer_email.setText(DftTblModel_customers.getValueAt(baris, 2).toString());
     }//GEN-LAST:event_Table_customerMouseClicked
 
     /**
