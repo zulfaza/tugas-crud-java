@@ -36,7 +36,7 @@ public class form_data extends javax.swing.JFrame {
             SQL = "select * from customers";
             java.sql.ResultSet res = stmt.executeQuery(SQL);
             while (res.next()) {
-                DftTblModel_products.addRow(new Object[]{
+                DftTblModel_customers.addRow(new Object[]{
                     res.getString("id"),
                     res.getString("name"),
                     res.getString("email"),
