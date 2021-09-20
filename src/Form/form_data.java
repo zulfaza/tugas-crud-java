@@ -562,7 +562,18 @@ public class form_data extends javax.swing.JFrame {
     }//GEN-LAST:event_Product_simpanActionPerformed
 
     private void Product_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Product_editActionPerformed
-        
+        try {
+            Connection conn = Koneksi.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("update product set nama=?, price=?, stok=? where id=?");
+            stmt.setString(1, Product_name.getText());
+            stmt.setString(2, Product_price.getText());
+            stmt.setString(3, Product_stock.getText());
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Data berhasil diubah", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+            TampilDataProduct();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_Product_editActionPerformed
 
     private void Product_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Product_hapusActionPerformed
@@ -589,7 +600,11 @@ public class form_data extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPane1PropertyChange
 
     private void Table_productMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_productMouseClicked
-        
+        int barisP = Table_product.getSelectedRow();
+        this.CurrentId = DftTblModel_products.getValueAt(barisP, 0).toString();
+        Product_name.setText(DftTblModel_products.getValueAt(barisP, 0).toString());
+        Product_price.setText(DftTblModel_products.getValueAt(barisP, 1).toString());
+        Product_stock.setText(DftTblModel_products.getValueAt(barisP, 2).toString());
     }//GEN-LAST:event_Table_productMouseClicked
 
     private void Table_sellerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_sellerMouseClicked
