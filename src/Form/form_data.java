@@ -475,8 +475,23 @@ public class form_data extends javax.swing.JFrame {
     }//GEN-LAST:event_customer_editActionPerformed
 
     private void customer_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customer_hapusActionPerformed
-        // TODO add your handling code here:
-        
+         if(this.CurrentId == "null"){
+            JOptionPane.showMessageDialog(null, "Silahkan pilih data yang ingin dihapus", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Connection conn = Koneksi.getConnection();
+        int confirm = JOptionPane.showConfirmDialog(null, "Apakah anda yakin ingin menghapus data tersebut?", "Konfirmasi", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (confirm == 0) {
+            try {
+                java.sql.PreparedStatement stmt = conn.prepareStatement("delete from customers where id ='" + this.CurrentId + "'");
+                stmt.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data berhasil dihapus", "Success", JOptionPane.INFORMATION_MESSAGE);
+                TampilDataCustomer();
+                customer_name.setText("");
+                customer_email.setText("");
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Data gagal di hapus" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
     }//GEN-LAST:event_customer_hapusActionPerformed
 
     private void Seller_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seller_simpanActionPerformed
