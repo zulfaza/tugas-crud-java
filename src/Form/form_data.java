@@ -28,7 +28,28 @@ public class form_data extends javax.swing.JFrame {
     }
     
     public void TampilDataSeller() {
-	
+	DftTblModel_sellers = new DefaultTableModel();
+        DftTblModel_sellers.addColumn("Id");
+        DftTblModel_sellers.addColumn("Nama");
+        DftTblModel_sellers.addColumn("Email");
+        DftTblModel_sellers.addColumn("Location");
+        Table_seller.setModel(DftTblModel_sellers);
+        Connection conn = Koneksi.getConnection();
+        try {
+            java.sql.Statement stmt = conn.createStatement();
+            SQL = "select * from sellers";
+            java.sql.ResultSet res = stmt.executeQuery(SQL);
+            while (res.next()) {
+                DftTblModel_sellers.addRow(new Object[]{
+                    res.getString("id"),
+                    res.getString("name"),
+                    res.getString("email"),
+                    res.getString("location"),
+                });
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     
@@ -435,11 +456,22 @@ public class form_data extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void customer_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customer_simpanActionPerformed
-
+        
     }//GEN-LAST:event_customer_simpanActionPerformed
 
     private void customer_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customer_editActionPerformed
-
+        try {
+            Connection conn = Koneksi.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("update customers set name=?, email=? where id=?");
+            stmt.setString(1, customer_name.getText());
+            stmt.setString(2, customer_email.getText());
+            stmt.setString(3, this.CurrentId);
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Data berhasil diubah", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+            TampilDataCustomer();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_customer_editActionPerformed
 
     private void customer_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customer_hapusActionPerformed
@@ -455,15 +487,17 @@ public class form_data extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             Connection conn = Koneksi.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("update sellers set name=?, email=?, address=? where id=?");
+            PreparedStatement stmt = conn.prepareStatement("update sellers set name=?, email=?, location=? where id=?");
             stmt.setString(1, Seller_name.getText());
             stmt.setString(2, Seller_email.getText());
             stmt.setString(3, Seller_location.getText());
             stmt.setString(4, this.CurrentId);
             stmt.executeUpdate();
             this.TampilDataSeller();
+            JOptionPane.showMessageDialog(null, "Data berhasil diubah", "Pesan", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_Seller_editActionPerformed
 
@@ -496,9 +530,9 @@ public class form_data extends javax.swing.JFrame {
     private void Table_sellerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_sellerMouseClicked
         int baris = Table_seller.getSelectedRow();
         this.CurrentId = DftTblModel_sellers.getValueAt(baris, 0).toString();
-        Seller_name.setText(DftTblModel_sellers.getValueAt(baris, 0).toString());
-        Seller_email.setText(DftTblModel_sellers.getValueAt(baris, 1).toString());
-        Seller_location.setText(DftTblModel_sellers.getValueAt(baris, 2).toString());
+        Seller_name.setText(DftTblModel_sellers.getValueAt(baris, 1).toString());
+        Seller_email.setText(DftTblModel_sellers.getValueAt(baris, 2).toString());
+        Seller_location.setText(DftTblModel_sellers.getValueAt(baris, 3).toString());
     }//GEN-LAST:event_Table_sellerMouseClicked
 
     private void Table_customerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_customerMouseClicked
