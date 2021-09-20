@@ -475,7 +475,7 @@ public class form_data extends javax.swing.JFrame {
     }//GEN-LAST:event_customer_editActionPerformed
 
     private void customer_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customer_hapusActionPerformed
-         if(this.CurrentId == "null"){
+        if(this.CurrentId == "null"){
             JOptionPane.showMessageDialog(null, "Silahkan pilih data yang ingin dihapus", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -492,6 +492,7 @@ public class form_data extends javax.swing.JFrame {
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Data gagal di hapus" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
+        }
     }//GEN-LAST:event_customer_hapusActionPerformed
 
     private void Seller_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seller_simpanActionPerformed
@@ -518,7 +519,21 @@ public class form_data extends javax.swing.JFrame {
 
     
     private void Seller_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Seller_hapusActionPerformed
-        
+        Connection conn = Koneksi.getConnection();
+        int confirm = JOptionPane.showConfirmDialog(null, "Apakah anda yakin ingin menghapus data tersebut?", "Konfirmasi", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (confirm == 0) {
+            try {
+                java.sql.PreparedStatement stmt = conn.prepareStatement("delete from sellers where id ='" + this.CurrentId + "'");
+                stmt.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data berhasil dihapus", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+                TampilDataSeller();
+                Seller_name.setText("");
+                Seller_email.setText("");
+                Seller_location.setText("");
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Data gagal di hapus" + e.getMessage(), "Pesan", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_Seller_hapusActionPerformed
 
     private void Product_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Product_simpanActionPerformed
