@@ -567,7 +567,21 @@ public class form_data extends javax.swing.JFrame {
 
     private void Product_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Product_hapusActionPerformed
         // TODO add your handling code here:
-        
+        Connection conn = Koneksi.getConnection();
+        int confirm = JOptionPane.showConfirmDialog(null, "Apakah anda yakin ingin menghapus data tersebut?", "Konfirmasi", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (confirm == 0) {
+            try {
+                java.sql.PreparedStatement stmt = conn.prepareStatement("delete from products where id ='" + this.CurrentId + "'");
+                stmt.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data berhasil dihapus", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+                TampilDataProduct();
+                Product_name.setText("");
+                Product_price.setText("");
+                Product_stock.setText("");
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Data gagal di hapus" + e.getMessage(), "Pesan", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_Product_hapusActionPerformed
 
     private void jTabbedPane1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1PropertyChange
