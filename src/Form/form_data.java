@@ -24,7 +24,27 @@ public class form_data extends javax.swing.JFrame {
     private String CurrentId;
     
     public void TampilDataCustomer() {
-        
+        ftTblModel_customers = new DefaultTableModel();
+        DftTblModel_customers.addColumn("Id");
+        DftTblModel_customers.addColumn("Nama");
+        DftTblModel_customers.addColumn("Email");
+
+        Table_customers.setModel(DftTblModel_customers);
+        Connection conn = Koneksi.getConnection();
+        try {
+            java.sql.Statement stmt = conn.createStatement();
+            SQL = "select * from customers";
+            java.sql.ResultSet res = stmt.executeQuery(SQL);
+            while (res.next()) {
+                DftTblModel_products.addRow(new Object[]{
+                    res.getString("id"),
+                    res.getString("name"),
+                    res.getString("email"),
+                });
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     public void TampilDataSeller() {
@@ -477,7 +497,20 @@ public class form_data extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void customer_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customer_simpanActionPerformed
-        
+        try {
+            Connection conn = Koneksi.getConnection();
+            int temp = Integer.parseInt(this.CurrentId)+1;
+            String row = Integer.toString(temp);
+            PreparedStatement stmt = conn.prepareStatement("insert into customers(id, name, email) values(?,?,?)");
+            stmt.setString(1, row);
+            stmt.setString(2, Seller_name.getText());
+            stmt.setString(3, Seller_email.getText());
+            stmt.executeUpdate();
+            this.TampilDataSeller();
+            JOptionPane.showMessageDialog(null, "Data berhasil disimpan", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_customer_simpanActionPerformed
 
     private void customer_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customer_editActionPerformed
@@ -572,7 +605,21 @@ public class form_data extends javax.swing.JFrame {
     }//GEN-LAST:event_Seller_hapusActionPerformed
 
     private void Product_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Product_simpanActionPerformed
-        
+         try {
+            Connection conn = Koneksi.getConnection();
+            int temp = Integer.parseInt(this.CurrentId)+1;
+            String row = Integer.toString(temp);
+            PreparedStatement stmt = conn.prepareStatement("insert into products(id, name, price, stock) values(?,?,?,?)");
+            stmt.setString(1, row);
+            stmt.setString(2, Product_name.getText());
+            stmt.setString(3, Product_price.getText());
+            stmt.setString(4, Product_stock.getText());
+            stmt.executeUpdate();
+            this.TampilDataProduct();
+            JOptionPane.showMessageDialog(null, "Data berhasil disimpan", "Pesan", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_Product_simpanActionPerformed
 
     private void Product_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Product_editActionPerformed
