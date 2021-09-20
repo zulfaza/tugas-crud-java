@@ -54,7 +54,28 @@ public class form_data extends javax.swing.JFrame {
     
     
     public void TampilDataProduct() {
-	
+	DftTblModel_products = new DefaultTableModel();
+        DftTblModel_products.addColumn("Id");
+        DftTblModel_products.addColumn("Nama");
+        DftTblModel_products.addColumn("Harga");
+        DftTblModel_products.addColumn("Stock");
+        Table_product.setModel(DftTblModel_products);
+        Connection conn = Koneksi.getConnection();
+        try {
+            java.sql.Statement stmt = conn.createStatement();
+            SQL = "select * from products";
+            java.sql.ResultSet res = stmt.executeQuery(SQL);
+            while (res.next()) {
+                DftTblModel_products.addRow(new Object[]{
+                    res.getString("id"),
+                    res.getString("name"),
+                    res.getString("price"),
+                    res.getString("stock"),
+                });
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     /**
