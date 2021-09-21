@@ -503,8 +503,8 @@ public class form_data extends javax.swing.JFrame {
             String row = Integer.toString(temp);
             PreparedStatement stmt = conn.prepareStatement("insert into customers(id, name, email) values(?,?,?)");
             stmt.setString(1, row);
-            stmt.setString(2, Seller_name.getText());
-            stmt.setString(3, Seller_email.getText());
+            stmt.setString(2, customer_name.getText());
+            stmt.setString(3, customer_email.getText());
             stmt.executeUpdate();
             this.TampilDataSeller();
             JOptionPane.showMessageDialog(null, "Data berhasil disimpan", "Pesan", JOptionPane.INFORMATION_MESSAGE);
